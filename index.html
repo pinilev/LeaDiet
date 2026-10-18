@@ -81,7 +81,7 @@
         <!-- Daily Progress Overview Card -->
         <div class="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl p-5 text-white shadow-lg">
             <div class="flex justify-between items-center mb-3">
-                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-100" id="displayDateStr">יומי</span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-100" id="displayDateStr">מצב יומי - היום</span>
             </div>
             
             <div class="grid grid-cols-3 gap-3 text-center my-2">
@@ -118,41 +118,11 @@
                 <i class="fa-solid fa-lightbulb text-amber-300 text-sm"></i>
                 <span id="quickTip">זכרי לשלב מנת חלבון בכל ארוחה מרכזית!</span>
             </div>
-        </div>
 
-        <!-- Weekly Constraints Tracker (Beef & Fish/Legumes) -->
-        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
-            <h2 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-calendar-week text-emerald-600"></i>
-                מעקב יעדים שבועי (ברנדה)
-            </h2>
-            
-            <div class="grid grid-cols-2 gap-3">
-                <!-- Beef Weekly Limit -->
-                <div class="bg-rose-50/60 rounded-xl p-3 border border-rose-100">
-                    <div class="flex justify-between items-center text-xs font-semibold text-rose-800 mb-1">
-                        <span>בקר (עד 300g)</span>
-                        <i class="fa-solid fa-cow text-rose-400"></i>
-                    </div>
-                    <div class="text-lg font-bold text-rose-900" id="weeklyBeefVal">0g <span class="text-xs font-normal text-slate-500">/ 300g</span></div>
-                    <div class="w-full bg-rose-200/60 h-1.5 rounded-full mt-1.5 overflow-hidden">
-                        <div id="weeklyBeefBar" class="bg-rose-500 h-full rounded-full transition-all" style="width: 0%"></div>
-                    </div>
-                    <p class="text-[10px] text-rose-600 mt-1" id="beefStatusText">נותרו 300 גרם השבוע</p>
-                </div>
-
-                <!-- Fish / Legumes Weekly Goal -->
-                <div class="bg-indigo-50/60 rounded-xl p-3 border border-indigo-100">
-                    <div class="flex justify-between items-center text-xs font-semibold text-indigo-800 mb-1">
-                        <span>דגים / קטניות</span>
-                        <i class="fa-solid fa-fish text-indigo-400"></i>
-                    </div>
-                    <div class="text-lg font-bold text-indigo-900" id="weeklyFishLegumeVal">0 <span class="text-xs font-normal text-slate-500">/ 2 פעמים</span></div>
-                    <div class="w-full bg-indigo-200/60 h-1.5 rounded-full mt-1.5 overflow-hidden">
-                        <div id="weeklyFishLegumeBar" class="bg-indigo-500 h-full rounded-full transition-all" style="width: 0%"></div>
-                    </div>
-                    <p class="text-[10px] text-indigo-600 mt-1" id="fishLegumeStatusText">יעד: לפחות 2 ארוחות</p>
-                </div>
+            <!-- Vegetables Note -->
+            <div class="mt-1.5 text-xs text-emerald-100/90 flex items-center gap-2 px-1">
+                <i class="fa-solid fa-carrot text-emerald-200"></i>
+                <span>ירקות ללא הגבלה</span>
             </div>
         </div>
 
@@ -179,52 +149,77 @@
                     <li><b>גביע יוגורט מועשר חלבון</b> (200g) = <b>~20 גרם חלבון</b>.</li>
                     <li><b>100 גרם</b> יוגורט יווני (6.5%-10%) = <b>~10 גרם חלבון</b>.</li>
                     <li><b>יוגורט עיזים "שלכם"</b> = <b>3.6 גרם חלבון</b> להגשה/100 גרם.</li>
-                    <li><b>1/2 כוס קטניות</b> (עדשים, חומוס, שעועית) = <b>9-12 גרם חלבון</b>.</li>
+                    <li class="pt-1 border-t border-blue-200/60 font-semibold text-blue-900">פריטים נוספים:</li>
+                    <li><b>טונה בשימורים</b> (מסוננת): כ-<b>25 גרם חלבון</b></li>
+                    <li><b>פילה סלמון</b>: כ-<b>22 גרם חלבון</b></li>
+                    <li><b>ביצה</b> (יחידה אחת בגודל L): כ-<b>6–7 גרם חלבון</b></li>
+                    <li><b>100 גר' פולי אדממה</b> (=סויה. ללא התרמיל): כ-<b>11 גרם חלבון</b></li>
+                    <li><b>100 גר' עדשים</b>: כ-<b>9 גרם חלבון</b></li>
+                    <li><b>100 גר' גרגרי חומוס</b>: כ-<b>9 גרם חלבון</b></li>
+                    <li><b>100 גר' שעועית לבנה / אדומה</b>: כ-<b>8 גרם חלבון</b></li>
+                    <li><b>חופן אגוזים/בוטנים</b> (כ-30 גרם): כ-<b>6–7.5 גרם חלבון</b></li>
+                    <li><b>כף חמאת בוטנים טבעית</b> (כ-15–20 גרם): כ-<b>4–5 גרם חלבון</b></li>
+                    <li><b>חופן שקדים</b> (כ-23 שקדים, כ-30 גרם): כ-<b>6 גרם חלבון</b></li>
+                    <li><b>כף זרעי דלעת/חמנייה קלופים</b> (כ-10 גרם): כ-<b>3 גרם חלבון</b></li>
+                    <li><b>חצי כוס שיבולת שועל יבשה</b> (כ-40 גרם לדייסה): כ-<b>5–6 גרם חלבון</b></li>
+                    <li><b>חצי כוס קינואה מבושלת</b> (כ-90 גרם מבושל): כ-<b>4 גרם חלבון</b></li>
                 </ul>
             </div>
 
             <!-- Quick Add Preset Buttons -->
-            <p class="text-xs text-slate-500 mb-2 font-medium">הוספה מהירה מתפריט ההנחיות:</p>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
-                <button onclick="addPresetProtein('עוף / הודו / דג (100g)', 28, 'meat', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-slate-700">עוף/דג/קציצות (100g)</span>
-                    <span class="text-[11px] text-blue-600 font-bold mt-1">+28 גרם חלבון</span>
-                </button>
+            <p class="text-xs text-slate-500 mb-2 font-medium">הוספה מהירה מתפריט ההנחיות והמדריך:</p>
+            
+            <!-- Dynamic Dropdown Selection with Auto-Grams -->
+            <div class="space-y-2 mb-3">
+                <div class="flex gap-2">
+                    <select id="proteinPresetSelect" onchange="onProteinSelectChange(this.value)" class="flex-1 text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 text-slate-800 font-medium focus:outline-none focus:border-blue-500">
+                        <option value="">-- בחר מנת חלבון מהרשימה --</option>
+                        <optgroup label="בשר, עוף, דגים ושימורים">
+                            <option value="עוף / הודו / דג (100g)|28|meat|false">עוף / הודו / דג (100g) - 28g חלבון</option>
+                            <option value="בקר (100g)|28|beef|false">בקר (100g) - 28g חלבון (מעקב שבועי)</option>
+                            <option value="טונה בשימורים מסוננת (קופסה)|25|fish|true">טונה בשימורים מסוננת - 25g חלבון</option>
+                            <option value="פילה סלמון (100g)|22|fish|true">פילה סלמון (100g) - 22g חלבון</option>
+                        </optgroup>
+                        <optgroup label="מוצרי חלב וביצים">
+                            <option value="קוטג' / גבינה לבנה 5% (250g)|27|dairy|false">קוטג' / גבינה לבנה 5% (250g) - 27g חלבון</option>
+                            <option value="יוגורט מועשר חלבון (200g)|20|dairy|false">יוגורט מועשר חלבון (200g) - 20g חלבון</option>
+                            <option value="יוגורט יווני (100g)|10|dairy|false">יוגורט יווני (100g) - 10g חלבון</option>
+                            <option value="יוגורט עיזים 'שלכם' (100g)|3.6|dairy|false">יוגורט עיזים 'שלכם' (100g) - 3.6g חלבון</option>
+                            <option value="ביצה אחת (L)|6.5|egg|false">ביצה אחת (L) - 6.5g חלבון</option>
+                        </optgroup>
+                        <optgroup label="קטניות, צמחוני ודגנים">
+                            <option value="אדממה / סויה ללא תרמיל (100g)|11|legume|true">אדממה / סויה ללא תרמיל (100g) - 11g חלבון</option>
+                            <option value="עדשים מבושלות (100g)|9|legume|true">עדשים מבושלות (100g) - 9g חלבון</option>
+                            <option value="גרגרי חומוס מבושלים (100g)|9|legume|true">גרגרי חומוס מבושלים (100g) - 9g חלבון</option>
+                            <option value="שעועית לבנה / אדומה (100g)|8|legume|true">שעועית לבנה / אדומה (100g) - 8g חלבון</option>
+                            <option value="שיבולת שועל יבשה / דייסה (40g)|5.5|grain|false">שיבולת שועל יבשה (40g) - 5.5g חלבון</option>
+                            <option value="קינואה מבושלת (90g)|4|grain|false">קינואה מבושלת (90g) - 4g חלבון</option>
+                        </optgroup>
+                        <optgroup label="אגוזים, זרעים וממרחים">
+                            <option value="חופן אגוזים / בוטנים (30g)|6.5|nuts|false">חופן אגוזים / בוטנים (30g) - 6.5g חלבון</option>
+                            <option value="חופן שקדים (30g)|6|nuts|false">חופן שקדים (30g) - 6g חלבון</option>
+                            <option value="כף חמאת בוטנים טבעית|4.5|nuts|false">כף חמאת בוטנים טבעית - 4.5g חלבון</option>
+                            <option value="כף זרעי דלעת / חמנייה (10g)|3|nuts|false">כף זרעי דלעת / חמנייה (10g) - 3g חלבון</option>
+                        </optgroup>
+                    </select>
 
-                <button onclick="addPresetProtein('בקר (100g)', 28, 'beef', false)" class="p-2.5 bg-rose-50/40 hover:bg-rose-50 border border-rose-200/80 rounded-xl text-right transition flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-rose-900">בקר (100g)</span>
-                    <span class="text-[11px] text-rose-600 font-bold mt-1">+28g | מעקב שבועי</span>
-                </button>
-
-                <button onclick="addPresetProtein('קוטג\'/גבינה 5% (250g)', 27, 'dairy', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-slate-700">קוטג'/גבינה (250g)</span>
-                    <span class="text-[11px] text-blue-600 font-bold mt-1">+27 גרם חלבון</span>
-                </button>
-
-                <button onclick="addPresetProtein('יוגורט מועשר (200g)', 20, 'dairy', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-slate-700">יוגורט מועשר חלבון</span>
-                    <span class="text-[11px] text-blue-600 font-bold mt-1">+20 גרם חלבון</span>
-                </button>
-
-                <button onclick="addPresetProtein('יוגורט יווני (100g)', 10, 'dairy', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-slate-700">יוגורט יווני (100g)</span>
-                    <span class="text-[11px] text-blue-600 font-bold mt-1">+10 גרם חלבון</span>
-                </button>
-
-                <button onclick="addPresetProtein('חצי כוס קטניות', 10, 'legume', true)" class="p-2.5 bg-amber-50/50 hover:bg-amber-100/50 border border-amber-200/80 rounded-xl text-right transition flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-amber-900">חצי כוס קטניות</span>
-                    <span class="text-[11px] text-amber-700 font-bold mt-1">+10g | סיבים</span>
-                </button>
+                    <button onclick="addSelectedProteinFromDropdown()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                        + הוסף
+                    </button>
+                </div>
             </div>
 
-            <!-- Custom Custom Protein Input -->
-            <div class="flex gap-2 pt-2 border-t border-slate-100">
-                <input type="text" id="customProteinName" placeholder="שם המאכל (למשל: ביצה, טונה)" class="flex-1 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
-                <input type="number" id="customProteinGrams" placeholder="גרם חלבון" class="w-24 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
-                <button onclick="addCustomProtein()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs px-3 py-2 rounded-xl transition">
-                    הוסף
-                </button>
-            </div>
+            <!-- Custom Protein Input (As fallback/optional) -->
+            <details class="text-xs text-slate-500 pt-1 border-t border-slate-100">
+                <summary class="cursor-pointer hover:text-slate-700 font-medium py-1">הזנת מאכל מותאם אישית / ידני</summary>
+                <div class="flex gap-2 pt-2">
+                    <input type="text" id="customProteinName" placeholder="שם המאכל" class="flex-1 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
+                    <input type="number" id="customProteinGrams" placeholder="גרם חלבון" class="w-24 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
+                    <button onclick="addCustomProtein()" class="bg-slate-700 hover:bg-slate-800 text-white font-medium text-xs px-3 py-2 rounded-xl transition">
+                        שמור
+                    </button>
+                </div>
+            </details>
         </div>
 
         <!-- Section 2: Fruit Tracker -->
@@ -428,6 +423,22 @@
             updateUI();
         }
 
+        function addSelectedProteinFromDropdown() {
+            const selectEl = document.getElementById('proteinPresetSelect');
+            const val = selectEl.value;
+
+            if (!val) {
+                alert('אנא בחרי מנת חלבון מהרשימה');
+                return;
+            }
+
+            const [name, grams, category, isFishLegumeStr] = val.split('|');
+            const isFishLegume = isFishLegumeStr === 'true';
+
+            addPresetProtein(name, parseFloat(grams), category, isFishLegume);
+            selectEl.selectedIndex = 0;
+        }
+
         function changeDate(newDate) {
             if (!newDate) return;
             currentDateStr = newDate;
@@ -477,6 +488,33 @@
 
             nameInput.value = '';
             gramsInput.value = '';
+            saveData();
+            updateUI();
+        }
+
+        function addCustomProtein() {
+            const nameInput = document.getElementById('customProteinName');
+            const gramsInput = document.getElementById('customProteinGrams');
+            const name = nameInput.value.trim() || 'מנת חלבון';
+            const grams = parseFloat(gramsInput.value);
+
+            if (isNaN(grams) || grams <= 0) {
+                alert('אנא הזיני כמות חלבון תקינה בגרמים');
+                return;
+            }
+
+            const day = getDayData(currentDateStr);
+            day.proteins.push({
+                id: Date.now(),
+                name: name,
+                grams: grams,
+                category: 'custom',
+                isFishLegume: false
+            });
+
+            nameInput.value = '';
+            gramsInput.value = '';
+            delete gramsInput.dataset.autoFilled;
             saveData();
             updateUI();
         }
