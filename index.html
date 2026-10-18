@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מעקב תזונה - הדיאטה של ברנדה</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Rubik -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        },
+                        protein: '#3b82f6',
+                        fruit: '#f97316',
+                        water: '#06b6d4',
+                    },
+                    fontFamily: {
+                        sans: ['Rubik', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom Scrollbar for better UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-20">
+
+    <!-- Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold text-xl">
+                    <i class="fa-solid font-bold text-lg fa-apple-whole"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-800 leading-tight">מעקב תזונה אישי</h1>
+                    <p class="text-xs text-slate-500">הנחיות הדיאטנית ברנדה</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="todayBtn" onclick="goToToday()" class="text-xs bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-medium text-slate-600 transition">
+                    היום
+                </button>
+                <input type="date" id="datePicker" onchange="changeDate(this.value)" class="text-xs border border-slate-200 rounded-lg p-1.5 bg-slate-50 text-slate-700 font-medium cursor-pointer">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-xl mx-auto px-4 pt-4 space-y-4">
+
+        <!-- Daily Progress Overview Card -->
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl p-5 text-white shadow-lg">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-100" id="displayDateStr">יומי</span>
+                <span class="bg-white/20 text-white text-xs px-2.5 py-1 rounded-full font-medium" id="statusBadge">תקן יומי active</span>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3 text-center my-2">
+                <!-- Protein Summary -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+                    <div class="text-xs text-emerald-100 mb-1"><i class="fa-solid fa-drumstick-bite ml-1"></i> חלבון</div>
+                    <div class="text-2xl font-bold" id="totalProtein">0<span class="text-xs font-normal">/80 גר'</span></div>
+                    <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="proteinBar" class="bg-emerald-300 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Fruits Summary -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+                    <div class="text-xs text-emerald-100 mb-1"><i class="fa-solid fa-apple-whole ml-1"></i> פירות</div>
+                    <div class="text-2xl font-bold" id="totalFruits">0<span class="text-xs font-normal">/5</span></div>
+                    <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="fruitBar" class="bg-orange-300 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Water Summary -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+                    <div class="text-xs text-emerald-100 mb-1"><i class="fa-solid fa-glass-water ml-1"></i> מים</div>
+                    <div class="text-2xl font-bold" id="totalWater">0<span class="text-xs font-normal">/4</span></div>
+                    <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div id="waterBar" class="bg-cyan-300 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Tip Banner -->
+            <div class="mt-3 bg-black/15 rounded-xl p-2.5 text-xs text-emerald-50 flex items-center gap-2">
+                <i class="fa-solid fa-lightbulb text-amber-300 text-sm"></i>
+                <span id="quickTip">זכרי לשלב מנת חלבון בכל ארוחה מרכזית!</span>
+            </div>
+        </div>
+
+        <!-- Weekly Constraints Tracker (Beef & Fish/Legumes) -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+            <h2 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-week text-emerald-600"></i>
+                מעקב יעדים שבועי (ברנדה)
+            </h2>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Beef Weekly Limit -->
+                <div class="bg-rose-50/60 rounded-xl p-3 border border-rose-100">
+                    <div class="flex justify-between items-center text-xs font-semibold text-rose-800 mb-1">
+                        <span>בקר (עד 300g)</span>
+                        <i class="fa-solid fa-cow text-rose-400"></i>
+                    </div>
+                    <div class="text-lg font-bold text-rose-900" id="weeklyBeefVal">0g <span class="text-xs font-normal text-slate-500">/ 300g</span></div>
+                    <div class="w-full bg-rose-200/60 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                        <div id="weeklyBeefBar" class="bg-rose-500 h-full rounded-full transition-all" style="width: 0%"></div>
+                    </div>
+                    <p class="text-[10px] text-rose-600 mt-1" id="beefStatusText">נותרו 300 גרם השבוע</p>
+                </div>
+
+                <!-- Fish / Legumes Weekly Goal -->
+                <div class="bg-indigo-50/60 rounded-xl p-3 border border-indigo-100">
+                    <div class="flex justify-between items-center text-xs font-semibold text-indigo-800 mb-1">
+                        <span>דגים / קטניות</span>
+                        <i class="fa-solid fa-fish text-indigo-400"></i>
+                    </div>
+                    <div class="text-lg font-bold text-indigo-900" id="weeklyFishLegumeVal">0 <span class="text-xs font-normal text-slate-500">/ 2 פעמים</span></div>
+                    <div class="w-full bg-indigo-200/60 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                        <div id="weeklyFishLegumeBar" class="bg-indigo-500 h-full rounded-full transition-all" style="width: 0%"></div>
+                    </div>
+                    <p class="text-[10px] text-indigo-600 mt-1" id="fishLegumeStatusText">יעד: לפחות 2 ארוחות</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: Protein Tracker -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-drumstick-bite"></i>
+                    </span>
+                    מנות חלבון (יעד: 75-80 גרם)
+                </h2>
+                <button onclick="toggleGuide('proteinGuide')" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium">
+                    <i class="fa-regular fa-circle-question"></i> מדריך
+                </button>
+            </div>
+
+            <!-- Protein Guide Modal / Drawer -->
+            <div id="proteinGuide" class="hidden mb-4 p-3 bg-blue-50/80 rounded-xl text-xs text-slate-700 border border-blue-100 space-y-1.5">
+                <p class="font-bold text-blue-900">מחשבון חלבון לפי הדיאטנית:</p>
+                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                    <li><b>100 גרם</b> עוף, דג, קציצות, שניצל, הודו, בקר = <b>25-30 גרם חלבון</b>.</li>
+                    <li><b>250 גרם</b> קוטג' / גבינה לבנה עד 5% = <b>27 גרם חלבון</b>.</li>
+                    <li><b>גביע יוגורט מועשר חלבון</b> (200g) = <b>~20 גרם חלבון</b>.</li>
+                    <li><b>100 גרם</b> יוגורט יווני (6.5%-10%) = <b>~10 גרם חלבון</b>.</li>
+                    <li><b>יוגורט עיזים "שלכם"</b> = <b>3.6 גרם חלבון</b> להגשה/100 גרם.</li>
+                    <li><b>1/2 כוס קטניות</b> (עדשים, חומוס, שעועית) = <b>9-12 גרם חלבון</b>.</li>
+                </ul>
+            </div>
+
+            <!-- Quick Add Preset Buttons -->
+            <p class="text-xs text-slate-500 mb-2 font-medium">הוספה מהירה מתפריט ההנחיות:</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                <button onclick="addPresetProtein('עוף / הודו / דג (100g)', 28, 'meat', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-slate-700">עוף/דג/קציצות (100g)</span>
+                    <span class="text-[11px] text-blue-600 font-bold mt-1">+28 גרם חלבון</span>
+                </button>
+
+                <button onclick="addPresetProtein('בקר (100g)', 28, 'beef', false)" class="p-2.5 bg-rose-50/40 hover:bg-rose-50 border border-rose-200/80 rounded-xl text-right transition flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-rose-900">בקר (100g)</span>
+                    <span class="text-[11px] text-rose-600 font-bold mt-1">+28g | מעקב שבועי</span>
+                </button>
+
+                <button onclick="addPresetProtein('קוטג\'/גבינה 5% (250g)', 27, 'dairy', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-slate-700">קוטג'/גבינה (250g)</span>
+                    <span class="text-[11px] text-blue-600 font-bold mt-1">+27 גרם חלבון</span>
+                </button>
+
+                <button onclick="addPresetProtein('יוגורט מועשר (200g)', 20, 'dairy', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-slate-700">יוגורט מועשר חלבון</span>
+                    <span class="text-[11px] text-blue-600 font-bold mt-1">+20 גרם חלבון</span>
+                </button>
+
+                <button onclick="addPresetProtein('יוגורט יווני (100g)', 10, 'dairy', false)" class="p-2.5 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 border border-slate-200 rounded-xl text-right transition flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-slate-700">יוגורט יווני (100g)</span>
+                    <span class="text-[11px] text-blue-600 font-bold mt-1">+10 גרם חלבון</span>
+                </button>
+
+                <button onclick="addPresetProtein('חצי כוס קטניות', 10, 'legume', true)" class="p-2.5 bg-amber-50/50 hover:bg-amber-100/50 border border-amber-200/80 rounded-xl text-right transition flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-amber-900">חצי כוס קטניות</span>
+                    <span class="text-[11px] text-amber-700 font-bold mt-1">+10g | סיבים</span>
+                </button>
+            </div>
+
+            <!-- Custom Custom Protein Input -->
+            <div class="flex gap-2 pt-2 border-t border-slate-100">
+                <input type="text" id="customProteinName" placeholder="שם המאכל (למשל: ביצה, טונה)" class="flex-1 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
+                <input type="number" id="customProteinGrams" placeholder="גרם חלבון" class="w-24 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
+                <button onclick="addCustomProtein()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs px-3 py-2 rounded-xl transition">
+                    הוסף
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 2: Fruit Tracker -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-apple-whole"></i>
+                    </span>
+                    מעקב פירות (מגבלה: 4-5 ביום)
+                </h2>
+                <button onclick="toggleGuide('fruitGuide')" class="text-xs text-orange-600 hover:underline flex items-center gap-1 font-medium">
+                    <i class="fa-regular fa-circle-question"></i> מנות פרי
+                </button>
+            </div>
+
+            <!-- Fruit Guidelines Drawer -->
+            <div id="fruitGuide" class="hidden mb-3 p-3 bg-orange-50/80 rounded-xl text-xs text-slate-700 border border-orange-100 space-y-1">
+                <p class="font-bold text-orange-900 mb-1"><i class="fa-solid fa-triangle-exclamation text-amber-600 ml-1"></i>הנחיות ברנדה לפירות:</p>
+                <p class="text-slate-600"><b>מנת פרי נחשבת:</b> פרי בינוני (תפוח, אגס, נקטרינה), 10 ענבים, כוס מלון/אבטיח/תותים/אוכמניות, 1/2 אשכולית, 1/2 בננה גדולה, 2 כפות חמוציות/צימוקים.</p>
+                <div class="mt-2 bg-white/80 p-2 rounded-lg text-orange-900 font-medium">
+                    💡 <b>טיפ חשוב:</b> תמיד לנסות לאכול פרי עם משהו נוסף - כמו חופן אגוזים, חצי כוס יוגורט או גבינה!
+                </div>
+            </div>
+
+            <!-- Fruit Selector Input -->
+            <div class="grid grid-cols-2 gap-2 my-3">
+                <select id="fruitSelect" class="text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 text-slate-700 font-medium">
+                    <option value="תפוח / אגס / נקטרינה">תפוח / אגס / נקטרינה</option>
+                    <option value="10 ענבים">10 ענבים</option>
+                    <option value="כוס מלון / אבטיח">כוס מלון / אבטיח</option>
+                    <option value="כוס תותים / אוכמניות">כוס תותים / אוכמניות</option>
+                    <option value="חצי בננה גדולה">חצי בננה גדולה</option>
+                    <option value="חצי אשכולית">חצי אשכולית</option>
+                    <option value="2 כפות חמוציות / צימוקים">2 כפות חמוציות / צימוקים</option>
+                    <option value="פרי אחר">פרי אחר</option>
+                </select>
+
+                <div class="flex items-center gap-2">
+                    <label class="flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer bg-slate-50 border border-slate-200 px-2.5 py-2 rounded-xl w-full">
+                        <input type="checkbox" id="fruitWithProtein" class="rounded text-orange-500 focus:ring-orange-400">
+                        <span>שולב עם אגוזים/יוגורט?</span>
+                    </label>
+                </div>
+            </div>
+
+            <button onclick="addFruitLog()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-plus text-xs"></i>
+                רשמי מנת פרי
+            </button>
+        </div>
+
+        <!-- Section 3: Water & Fibers -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Water Intake Tracker -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-3">
+                    <span class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-faucet-drip"></i>
+                    </span>
+                    שתיית מים (3-4 כוסות)
+                </h2>
+                
+                <div class="flex justify-around items-center my-3" id="waterCupsContainer">
+                    <!-- Dynamic Cups rendered by JS -->
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+                    <span>לחצי לסמן כוס ששתית</span>
+                    <button onclick="resetWater()" class="text-cyan-600 hover:underline">איפוס</button>
+                </div>
+            </div>
+
+            <!-- Dietary Fibers Reminder Checkbox -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                        <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs">
+                            <i class="fa-solid fa-seedling"></i>
+                        </span>
+                        סיבים תזונתיים היומיים
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-3">דגנים מלאים (קוואקר, כוסמין, גריסים) וירקות בכל הסוגים.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2 text-xs text-slate-700 bg-emerald-50/50 p-2 rounded-xl border border-emerald-100 cursor-pointer">
+                        <input type="checkbox" id="fiberVegCheck" onchange="toggleFiber('veg')" class="rounded text-emerald-600 focus:ring-emerald-500">
+                        <span>אכלתי ירקות היום</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-xs text-slate-700 bg-emerald-50/50 p-2 rounded-xl border border-emerald-100 cursor-pointer">
+                        <input type="checkbox" id="fiberWholeCheck" onchange="toggleFiber('grain')" class="rounded text-emerald-600 focus:ring-emerald-500">
+                        <span>שילבתי דגנים מלאים</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Today's Intake Log -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-slate-400"></i>
+                    יומן ארוחות ומזונות שנתפסו היום
+                </h2>
+                <span class="text-xs text-slate-400" id="logCountText">0 פריטים</span>
+            </div>
+
+            <div id="dailyLogList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <!-- Log Items dynamic rendering -->
+                <p class="text-xs text-slate-400 text-center py-6">טרם נרשמו מזונות להיום.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Global State & Local Storage Management
+        const STORAGE_KEY = 'diet_tracker_brenda_data';
+        
+        let currentDateStr = getFormattedDate(new Date());
+        let appData = loadData();
+
+        function getFormattedDate(dateObj) {
+            const yyyy = dateObj.getFullYear();
+            const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const dd = String(dateObj.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function loadData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                console.error("Failed to load local storage", e);
+                return {};
+            }
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+            } catch (e) {
+                console.error("Failed to save local storage", e);
+            }
+        }
+
+        function getDayData(dateStr) {
+            if (!appData[dateStr]) {
+                appData[dateStr] = {
+                    proteins: [], // { id, name, grams, category, isFishLegume }
+                    fruits: [],   // { id, name, withNuts }
+                    waterCups: 0, // 0 to 4
+                    fibers: { veg: false, grain: false }
+                };
+            }
+            return appData[dateStr];
+        }
+
+        // Date Navigation Functions
+        function initDatePicker() {
+            const dateInput = document.getElementById('datePicker');
+            dateInput.value = currentDateStr;
+            updateUI();
+        }
+
+        function changeDate(newDate) {
+            if (!newDate) return;
+            currentDateStr = newDate;
+            updateUI();
+        }
+
+        function goToToday() {
+            currentDateStr = getFormattedDate(new Date());
+            document.getElementById('datePicker').value = currentDateStr;
+            updateUI();
+        }
+
+        // Logging Actions
+        function addPresetProtein(name, grams, category, isFishLegume) {
+            const day = getDayData(currentDateStr);
+            const newItem = {
+                id: Date.now(),
+                name: name,
+                grams: parseFloat(grams),
+                category: category, // 'meat', 'beef', 'dairy', 'legume'
+                isFishLegume: isFishLegume || (category === 'legume' || name.includes('דג'))
+            };
+            day.proteins.push(newItem);
+            saveData();
+            updateUI();
+        }
+
+        function addCustomProtein() {
+            const nameInput = document.getElementById('customProteinName');
+            const gramsInput = document.getElementById('customProteinGrams');
+            const name = nameInput.value.trim() || 'מנת חלבון';
+            const grams = parseFloat(gramsInput.value);
+
+            if (isNaN(grams) || grams <= 0) {
+                alert('אנא הזיני כמות חלבון תקינה בגרמים');
+                return;
+            }
+
+            const day = getDayData(currentDateStr);
+            day.proteins.push({
+                id: Date.now(),
+                name: name,
+                grams: grams,
+                category: 'custom',
+                isFishLegume: false
+            });
+
+            nameInput.value = '';
+            gramsInput.value = '';
+            saveData();
+            updateUI();
+        }
+
+        function addFruitLog() {
+            const fruitSelect = document.getElementById('fruitSelect');
+            const withNutsCheck = document.getElementById('fruitWithProtein');
+
+            const day = getDayData(currentDateStr);
+            if (day.fruits.length >= 5) {
+                if (!confirm('הגעת למגבלה של 5 מנות פרי ביום מומלצות. האם להוסיף מנה נוספת?')) {
+                    return;
+                }
+            }
+
+            day.fruits.push({
+                id: Date.now(),
+                name: fruitSelect.value,
+                withNuts: withNutsCheck.checked
+            });
+
+            withNutsCheck.checked = false;
+            saveData();
+            updateUI();
+        }
+
+        function toggleWaterCup(cupIndex) {
+            const day = getDayData(currentDateStr);
+            if (day.waterCups === cupIndex + 1) {
+                day.waterCups = cupIndex; // Untap if clicking highest
+            } else {
+                day.waterCups = cupIndex + 1;
+            }
+            saveData();
+            updateUI();
+        }
+
+        function resetWater() {
+            const day = getDayData(currentDateStr);
+            day.waterCups = 0;
+            saveData();
+            updateUI();
+        }
+
+        function toggleFiber(type) {
+            const day = getDayData(currentDateStr);
+            if (type === 'veg') {
+                day.fibers.veg = document.getElementById('fiberVegCheck').checked;
+            } else if (type === 'grain') {
+                day.fibers.grain = document.getElementById('fiberWholeCheck').checked;
+            }
+            saveData();
+        }
+
+        function removeItem(type, id) {
+            const day = getDayData(currentDateStr);
+            if (type === 'protein') {
+                day.proteins = day.proteins.filter(item => item.id !== id);
+            } else if (type === 'fruit') {
+                day.fruits = day.fruits.filter(item => item.id !== id);
+            }
+            saveData();
+            updateUI();
+        }
+
+        function toggleGuide(guideId) {
+            const el = document.getElementById(guideId);
+            el.classList.toggle('hidden');
+        }
+
+        // Weekly Calculation Helpers
+        function getWeeklyStats() {
+            const current = new Date(currentDateStr);
+            // Calculate start of current week (Sunday)
+            const dayOfWeek = current.getDay(); // 0 is Sunday
+            const sunday = new Date(current);
+            sunday.setDate(current.getDate() - dayOfWeek);
+
+            let totalBeefGrams = 0;
+            let fishLegumeCount = 0;
+
+            for (let i = 0; i < 7; i++) {
+                const tempDate = new Date(sunday);
+                tempDate.setDate(sunday.getDate() + i);
+                const dateKey = getFormattedDate(tempDate);
+                const dayData = appData[dateKey];
+
+                if (dayData && dayData.proteins) {
+                    dayData.proteins.forEach(p => {
+                        if (p.category === 'beef' || p.name.includes('בקר')) {
+                            totalBeefGrams += 100; // Standard serving estimated as 100g per log
+                        }
+                        if (p.isFishLegume) {
+                            fishLegumeCount++;
+                        }
+                    });
+                }
+            }
+
+            return { totalBeefGrams, fishLegumeCount };
+        }
+
+        // Master UI Update Function
+        function updateUI() {
+            const day = getDayData(currentDateStr);
+
+            // Display Header Date String
+            const todayStr = getFormattedDate(new Date());
+            const displayDateElem = document.getElementById('displayDateStr');
+            if (currentDateStr === todayStr) {
+                displayDateElem.innerText = 'מצב יומי - היום';
+            } else {
+                displayDateElem.innerText = `מצב יומי - ${currentDateStr}`;
+            }
+
+            // 1. Calculate Daily Totals
+            const totalProteinGrams = day.proteins.reduce((sum, item) => sum + item.grams, 0);
+            const totalFruitCount = day.fruits.length;
+            const totalWaterCount = day.waterCups;
+
+            // Update Header Values
+            document.getElementById('totalProtein').innerHTML = `${Math.round(totalProteinGrams)}<span class="text-xs font-normal">/80 גר'</span>`;
+            document.getElementById('totalFruits').innerHTML = `${totalFruitCount}<span class="text-xs font-normal">/5</span>`;
+            document.getElementById('totalWater').innerHTML = `${totalWaterCount}<span class="text-xs font-normal">/4</span>`;
+
+            // Update Progress Bars
+            const proteinPercent = Math.min(100, (totalProteinGrams / 80) * 100);
+            const fruitPercent = Math.min(100, (totalFruitCount / 5) * 100);
+            const waterPercent = Math.min(100, (totalWaterCount / 4) * 100);
+
+            document.getElementById('proteinBar').style.width = `${proteinPercent}%`;
+            document.getElementById('fruitBar').style.width = `${fruitPercent}%`;
+            document.getElementById('waterBar').style.width = `${waterPercent}%`;
+
+            // Dynamic Tip Update
+            const tipElem = document.getElementById('quickTip');
+            if (totalProteinGrams < 40) {
+                tipElem.innerText = 'המלצת ברנדה: הקפידי לשלב מנת חלבון בכל ארוחה מרכזית (עוף, דג, גבינות עד 5%).';
+            } else if (totalFruitCount >= 4) {
+                tipElem.innerText = 'שימי לב: הגעת ל-4 מנות פרי. שמרי על מקום בארוחות לחלבונים מזינים!';
+            } else if (totalWaterCount < 3) {
+                tipElem.innerText = 'שתי עוד כוס מים! היעד הוא 3-4 כוסות מים לפחות ביום.';
+            } else {
+                tipElem.innerText = 'כל הכבוד! את עומדת ביעדי התזונה והבריאות היומיים של ברנדה!';
+            }
+
+            // 2. Weekly Tracker Updates
+            const weekly = getWeeklyStats();
+            document.getElementById('weeklyBeefVal').innerHTML = `${weekly.totalBeefGrams}g <span class="text-xs font-normal text-slate-500">/ 300g</span>`;
+            const beefPercent = Math.min(100, (weekly.totalBeefGrams / 300) * 100);
+            document.getElementById('weeklyBeefBar').style.width = `${beefPercent}%`;
+            document.getElementById('beefStatusText').innerText = weekly.totalBeefGrams >= 300 ? 'הגעת לתקרה השבועית לבקר!' : `נותרו ${300 - weekly.totalBeefGrams} גרם השבוע`;
+
+            document.getElementById('weeklyFishLegumeVal').innerHTML = `${weekly.fishLegumeCount} <span class="text-xs font-normal text-slate-500">/ 2 פעמים</span>`;
+            const fishPercent = Math.min(100, (weekly.fishLegumeCount / 2) * 100);
+            document.getElementById('weeklyFishLegumeBar').style.width = `${fishPercent}%`;
+            document.getElementById('fishLegumeStatusText').innerText = weekly.fishLegumeCount >= 2 ? 'הגעת ליעד דגים/קטניות השבועי!' : 'מומלץ לפחות עוד פעם אחת';
+
+            // 3. Render Water Cups
+            const waterContainer = document.getElementById('waterCupsContainer');
+            waterContainer.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                const isFilled = i < day.waterCups;
+                const cupBtn = document.createElement('button');
+                cupBtn.onclick = () => toggleWaterCup(i);
+                cupBtn.className = `flex flex-col items-center gap-1 transition-transform transform active:scale-95`;
+                cupBtn.innerHTML = `
+                    <div class="w-10 h-12 rounded-b-xl rounded-t-sm border-2 ${isFilled ? 'bg-cyan-500 border-cyan-600 text-white shadow-md' : 'bg-slate-100 border-slate-300 text-slate-300'} flex items-center justify-center text-lg transition-all">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <span class="text-[10px] font-medium ${isFilled ? 'text-cyan-700 font-bold' : 'text-slate-400'}">כוס ${i+1}</span>
+                `;
+                waterContainer.appendChild(cupBtn);
+            }
+
+            // 4. Update Fiber Checkboxes
+            document.getElementById('fiberVegCheck').checked = !!day.fibers.veg;
+            document.getElementById('fiberWholeCheck').checked = !!day.fibers.grain;
+
+            // 5. Render Log List
+            const logContainer = document.getElementById('dailyLogList');
+            logContainer.innerHTML = '';
+
+            const totalLogs = day.proteins.length + day.fruits.length;
+            document.getElementById('logCountText').innerText = `${totalLogs} פריטים שנרשמו`;
+
+            if (totalLogs === 0) {
+                logContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">טרם נרשמו מזונות להיום.</p>`;
+                return;
+            }
+
+            // Render Proteins in Feed
+            day.proteins.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs';
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-[10px]">
+                            <i class="fa-solid fa-drumstick-bite"></i>
+                        </span>
+                        <div>
+                            <span class="font-semibold text-slate-800">${p.name}</span>
+                            ${p.isFishLegume ? '<span class="mr-1 text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded">דג/קטניה</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-blue-600">+${p.grams}g חלבון</span>
+                        <button onclick="removeItem('protein', ${p.id})" class="text-slate-400 hover:text-rose-500 px-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+                logContainer.appendChild(item);
+            });
+
+            // Render Fruits in Feed
+            day.fruits.forEach(f => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs';
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-orange-100 text-orange-600 flex items-center justify-center text-[10px]">
+                            <i class="fa-solid fa-apple-whole"></i>
+                        </span>
+                        <div>
+                            <span class="font-semibold text-slate-800">${f.name}</span>
+                            ${f.withNuts ? '<span class="mr-1 text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">עם אגוזים/יוגורט</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-orange-600">1 מנת פרי</span>
+                        <button onclick="removeItem('fruit', ${f.id})" class="text-slate-400 hover:text-rose-500 px-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+                logContainer.appendChild(item);
+            });
+        }
+
+        // Initialize App on Page Load
+        window.onload = function() {
+            initDatePicker();
+        };
+    </script>
+</body>
+</html>
