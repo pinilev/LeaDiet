@@ -54,7 +54,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen pb-20">
 
-    <!-- Navigation Bar -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
         <div class="max-w-xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -75,7 +74,6 @@
         </div>
     </header>
 
-    <!-- Main Container -->
     <main class="max-w-xl mx-auto px-4 pt-4 space-y-4">
 
         <!-- Daily Progress Overview Card -->
@@ -120,7 +118,6 @@
             </div>
         </div>
 
-        <!-- Section 1: Protein Tracker -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
             <div class="flex justify-between items-center mb-3">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
@@ -136,7 +133,7 @@
 
             <!-- Protein Guide Modal / Drawer -->
             <div id="proteinGuide" class="hidden mb-4 p-3 bg-blue-50/80 rounded-xl text-xs text-slate-700 border border-blue-100 space-y-2">
-                <p class="font-bold text-blue-900">Protein Calculator based on Brenda's Guidelines (weight after cooking/draining):</p>
+                <p class="font-bold text-blue-900">Protein & Food Calculator based on Brenda's Guidelines:</p>
                 
                 <div class="space-y-1.5 text-slate-700">
                     <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5">🥩 Meat, Poultry & Fish:</p>
@@ -148,30 +145,28 @@
                         <li><b>100g Breaded Schnitzel / Meatballs</b> (processed): ~12–18g protein</li>
                     </ul>
 
-                    <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5 pt-1">🧀 Dairy & Eggs:</p>
+                    <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5 pt-1">🧀 Dairy & Cheeses:</p>
                     <ul class="list-disc list-inside space-y-0.5 pl-1 text-slate-600">
-                        <li><b>Cottage Cheese 5%</b> (Half a tub - 125g): ~14g protein (~11g / 100g)</li>
+                        <li><b>Cottage Cheese 5%</b> (Half a tub - 125g): ~14g protein</li>
                         <li><b>100g Protein-enriched Yogurt:</b> ~20g protein</li>
-                        <li><b>100g Greek Yogurt</b> (6.5%–10%): ~9–10g protein</li>
-                        <li><b>100g Goat Milk Yogurt:</b> ~3.5–4g protein</li>
-                        <li><b>1 Large Egg (L):</b> ~6–7g protein</li>
+                        <li><b>100g Greek Yogurt:</b> 10g protein</li>
+                        <li><b>1 cup of bio yogurt (150 g):</b> 6g protein</li>
+                        <li><b>50g Gouda cheese:</b> 12g protein</li>
+                        <li><b>50g Roquefort cheese:</b> 11g protein</li>
+                        <li><b>2 slices of yellow cheese (28% fat):</b> 10g protein</li>
                     </ul>
 
-                    <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5 pt-1">🫘 Legumes (cooked weight / ready to eat):</p>
+                    <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5 pt-1">🫘 Legumes, Corn & Grains:</p>
                     <ul class="list-disc list-inside space-y-0.5 pl-1 text-slate-600">
+                        <li><b>1 cup of corn (150 g):</b> 5g</li>
                         <li><b>100g Shelled Edamame:</b> ~11g protein</li>
                         <li><b>100g Cooked Lentils:</b> ~9g protein</li>
                         <li><b>100g Cooked Chickpeas:</b> ~9g protein</li>
-                        <li><b>100g Cooked White / Kidney Beans:</b> ~8g protein</li>
                     </ul>
 
-                    <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5 pt-1">🥜 Nuts, Seeds & Oats:</p>
+                    <p class="font-semibold text-blue-800 border-b border-blue-200/60 pb-0.5 pt-1">🍫 Snacks & Treats:</p>
                     <ul class="list-disc list-inside space-y-0.5 pl-1 text-slate-600">
-                        <li><b>Handful of Nuts / Peanuts / Almonds</b> (~30g): ~6–7.5g protein</li>
-                        <li><b>1 tbsp Natural Peanut Butter</b> (~15–20g): ~4–5g protein</li>
-                        <li><b>1 tbsp Shelled Pumpkin / Sunflower Seeds</b> (~10g): ~2.5–3g protein</li>
-                        <li><b>1/2 cup Dry Rolled Oats</b> (~40g): ~5–6g protein</li>
-                        <li><b>1/2 cup Cooked Quinoa</b> (~90g): ~4g protein</li>
+                        <li><b>Pretzel chocolate snack (50 g):</b> 12g</li>
                     </ul>
                 </div>
             </div>
@@ -181,7 +176,7 @@
             <div class="space-y-2 mb-3">
                 <div class="flex gap-2">
                     <select id="proteinPresetSelect" class="flex-1 text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 text-slate-800 font-medium focus:outline-none focus:border-blue-500">
-                        <option value="">-- Select a protein portion from the list --</option>
+                        <option value="">-- Select a portion from the list --</option>
                         
                         <optgroup label="Meat, Poultry & Fish (Cooked)">
                             <option value="Chicken Breast / Turkey Breast (100g)|30|meat|false">Chicken Breast / Turkey Breast (100g) - 30g protein</option>
@@ -191,27 +186,26 @@
                             <option value="Breaded Schnitzel / Meatballs (100g)|15|meat|false">Breaded Schnitzel / Meatballs (100g) - 15g protein</option>
                         </optgroup>
 
-                        <optgroup label="Dairy & Eggs">
+                        <optgroup label="Dairy & Cheeses">
                             <option value="Cottage Cheese 5% (125g)|14|dairy|false">Cottage Cheese 5% (Half tub - 125g) - 14g protein</option>
+                            <option value="100g Greek Yogurt|10|dairy|false">100g Greek Yogurt - 10g protein</option>
+                            <option value="1 cup of bio yogurt (150 g)|6|dairy|false">1 cup of bio yogurt (150 g) - 6g protein</option>
+                            <option value="50g Gouda cheese|12|dairy|false">50g Gouda cheese - 12g protein</option>
+                            <option value="50g Roquefort cheese|11|dairy|false">50g Roquefort cheese - 11g protein</option>
+                            <option value="2 slices of yellow cheese (28% fat)|10|dairy|false">2 slices of yellow cheese (28% fat) - 10g protein</option>
                             <option value="Protein-enriched Yogurt (100g)|20|dairy|false">Protein-enriched Yogurt (100g) - 20g protein</option>
-                            <option value="Greek Yogurt 6.5%-10% (100g)|9.5|dairy|false">Greek Yogurt (100g) - 9.5g protein</option>
-                            <option value="Goat Milk Yogurt (100g)|3.8|dairy|false">Goat Milk Yogurt (100g) - 3.8g protein</option>
                             <option value="1 Large Egg (L)|6.5|egg|false">1 Large Egg (L) - 6.5g protein</option>
                         </optgroup>
 
-                        <optgroup label="Legumes (Cooked / Ready)">
+                        <optgroup label="Legumes, Corn & Grains">
+                            <option value="1 cup of corn (150 g)|5|grain|false">1 cup of corn (150 g) - 5g</option>
                             <option value="Shelled Edamame (100g)|11|legume|true">Shelled Edamame (100g) - 11g protein</option>
                             <option value="Cooked Lentils (100g)|9|legume|true">Cooked Lentils (100g) - 9g protein</option>
                             <option value="Cooked Chickpeas (100g)|9|legume|true">Cooked Chickpeas (100g) - 9g protein</option>
-                            <option value="Cooked White / Red Beans (100g)|8|legume|true">Cooked White / Red Beans (100g) - 8g protein</option>
                         </optgroup>
 
-                        <optgroup label="Nuts, Seeds & Grains">
-                            <option value="Handful of Nuts / Peanuts / Almonds (30g)|6.75|nuts|false">Handful of Nuts / Peanuts / Almonds (30g) - 6.75g protein</option>
-                            <option value="1 tbsp Natural Peanut Butter (15-20g)|4.5|nuts|false">1 tbsp Natural Peanut Butter - 4.5g protein</option>
-                            <option value="1 tbsp Pumpkin / Sunflower Seeds (10g)|2.75|nuts|false">1 tbsp Pumpkin / Sunflower Seeds (10g) - 2.75g protein</option>
-                            <option value="1/2 cup Dry Rolled Oats (40g)|5.5|grain|false">1/2 cup Dry Rolled Oats (40g) - 5.5g protein</option>
-                            <option value="1/2 cup Cooked Quinoa (90g)|4|grain|false">1/2 cup Cooked Quinoa (90g) - 4g protein</option>
+                        <optgroup label="Snacks & Sweets">
+                            <option value="Pretzel chocolate snack (50 g)|12|snack|false">Pretzel chocolate snack (50 g) - 12g</option>
                         </optgroup>
                     </select>
 
@@ -226,7 +220,7 @@
                 <summary class="cursor-pointer hover:text-slate-700 font-medium py-1">Custom / Manual Item Entry</summary>
                 <div class="flex gap-2 pt-2">
                     <input type="text" id="customProteinName" placeholder="Food item name" class="flex-1 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
-                    <input type="number" id="customProteinGrams" placeholder="Protein (g)" class="w-28 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
+                    <input type="number" id="customProteinGrams" placeholder="Value (g)" class="w-28 text-xs border border-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
                     <button onclick="addCustomProtein()" class="bg-slate-700 hover:bg-slate-800 text-white font-medium text-xs px-3 py-2 rounded-xl transition">
                         Save
                     </button>
@@ -234,7 +228,6 @@
             </details>
         </div>
 
-        <!-- Section 2: Fruit Tracker -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
@@ -269,17 +262,6 @@
                         <li><b>Strawberries:</b> 1 cup whole strawberries</li>
                         <li><b>Blueberries / Raspberries / Cherries:</b> 1 cup (or ~3/4 cup cherries)</li>
                     </ul>
-
-                    <p class="font-semibold text-orange-800 border-b border-orange-200/60 pb-0.5 pt-1">🌴 Dried Fruits:</p>
-                    <ul class="list-disc list-inside space-y-0.5 pl-1 text-slate-600">
-                        <li><b>Cranberries / Raisins:</b> 2 level tablespoons</li>
-                        <li><b>Dates:</b> 2 small dates (or 1 large Medjool date)</li>
-                        <li><b>Dried Apricots / Prunes:</b> 2–3 pieces</li>
-                    </ul>
-                </div>
-
-                <div class="mt-2 bg-white/80 p-2 rounded-lg text-orange-900 font-medium">
-                    💡 <b>Pro Tip:</b> Always try to pair fruit with healthy fats/protein — such as a handful of nuts, half a cup of yogurt, or cheese!
                 </div>
             </div>
 
@@ -301,13 +283,7 @@
                         <optgroup label="Chopped Fruit (Cups)">
                             <option value="Watermelon / Melon (1.5-2 cups cubed)">Watermelon / Melon (1.5-2 cups cubed)</option>
                             <option value="Whole Strawberries (1 cup)">Whole Strawberries (1 cup)</option>
-                            <option value="Blueberries / Raspberries / Cherries (1 cup / 3/4 cup cherries)">Blueberries / Raspberries / Cherries (1 cup / 3/4 cup cherries)</option>
-                        </optgroup>
-
-                        <optgroup label="Dried Fruit">
-                            <option value="2 tbsp Dried Cranberries / Raisins">2 tbsp Dried Cranberries / Raisins</option>
-                            <option value="2 Small Dates / 1 Large Medjool">2 Small Dates / 1 Large Medjool</option>
-                            <option value="2-3 Dried Apricots / Prunes">2-3 Dried Apricots / Prunes</option>
+                            <option value="Blueberries / Raspberries / Cherries (1 cup)">Blueberries / Raspberries / Cherries (1 cup)</option>
                         </optgroup>
                     </select>
 
@@ -325,7 +301,6 @@
             </div>
         </div>
 
-        <!-- Section 3: Water Tracker -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
             <div class="flex justify-between items-center mb-3">
                 <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
@@ -342,7 +317,6 @@
             </div>
         </div>
 
-        <!-- Section 4: Fiber & Whole Grain Tracker -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
             <h2 class="text-base font-bold text-slate-800 mb-3 flex items-center gap-2">
                 <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs">
@@ -362,7 +336,6 @@
             </div>
         </div>
 
-        <!-- Section 5: Today's Intake Log -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
             <div class="flex justify-between items-center mb-3">
                 <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -436,7 +409,7 @@
             const val = selectEl.value;
 
             if (!val) {
-                alert('Please select a protein serving from the list.');
+                alert('Please select a serving from the list.');
                 return;
             }
 
@@ -477,11 +450,11 @@
         function addCustomProtein() {
             const nameInput = document.getElementById('customProteinName');
             const gramsInput = document.getElementById('customProteinGrams');
-            const name = nameInput.value.trim() || 'Protein Serving';
+            const name = nameInput.value.trim() || 'Food Item';
             const grams = parseFloat(gramsInput.value);
 
             if (isNaN(grams) || grams <= 0) {
-                alert('Please enter a valid protein amount in grams.');
+                alert('Please enter a valid amount.');
                 return;
             }
 
@@ -607,7 +580,7 @@
             // Dynamic Tip Update
             const tipElem = document.getElementById('quickTip');
             if (totalProteinGrams < 40) {
-                tipElem.innerText = 'Remember to include a protein portion in every main meal (chicken, fish, eggs, or cheese up to 5%).';
+                tipElem.innerText = 'Remember to include a protein portion in every main meal (chicken, fish, eggs, cheese or yogurt).';
             } else if (totalFruitCount >= 4) {
                 tipElem.innerText = 'Note: You have reached 4 fruit servings today. Keep room in your meals for protein!';
             } else if (totalWaterCount < 3) {
@@ -649,7 +622,7 @@
                 return;
             }
 
-            // Render Proteins in Feed
+            // Render Logged Items in Feed
             day.proteins.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'flex justify-between items-center p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs';
@@ -663,7 +636,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="font-bold text-blue-600">+${p.grams}g protein</span>
+                        <span class="font-bold text-blue-600">+${p.grams}g</span>
                         <button onclick="removeItem('protein', ${p.id})" class="text-slate-400 hover:text-rose-500 px-1">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
